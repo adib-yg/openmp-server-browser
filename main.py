@@ -89,7 +89,7 @@ class Ui(QtWidgets.QMainWindow):
             version: str,
             language: str,
             password: bool,
-            omp: bool):
+            omp: bool) -> None:
 
         rowPosition = self.tableWidget.rowCount()
         self.tableWidget.insertRow(rowPosition)
@@ -215,7 +215,7 @@ class Ui(QtWidgets.QMainWindow):
 
         return servers_count, players_count
 
-    def filterRows(self, text: str):
+    def filterRows(self, text: str) -> None:
         if len(text) > 2:
             for row in range(self.tableWidget.rowCount()):
                 item = self.tableWidget.item(row, 7)
@@ -405,4 +405,9 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = Ui()
     window.show()
+
+    timer = QtCore.QTimer()
+    timer.timeout.connect(lambda: sys.exit(0))
+    timer.start(12000)
+
     app.exec_()
