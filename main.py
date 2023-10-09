@@ -1,10 +1,10 @@
 #! python3
 
 # Version: MPL 1.1
-        
-# The contents of this file are subject to the Mozilla Public License Version 
-# 1.1 the "License"; you may not use this file except in compliance with 
-# the License. You may obtain a copy of the License at 
+
+# The contents of this file are subject to the Mozilla Public License Version
+# 1.1 the "License"; you may not use this file except in compliance with
+# the License. You may obtain a copy of the License at
 # http://www.mozilla.org/MPL/
 
 # Software distributed under the License is distributed on an "AS IS" basis,
@@ -32,6 +32,7 @@ import sys
 import requests
 import resources_rc
 
+
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()
@@ -51,14 +52,14 @@ class Ui(QtWidgets.QMainWindow):
         self.lineEdit.textChanged.connect(self.on_line_edit_changed)
         self.checkBoxOpenMpServers.stateChanged.connect(self.on_omp_check_box_state_changed)
         self.checkBoxSampServers.stateChanged.connect(self.on_samp_check_box_state_changed)
-        
+
         servers_count, players_count = self.loadServerList()
 
         self.labelOnlineServers.setText(f"""
             <html>
                 <head/>
                 <body>
-                    <p>Online Servers: 
+                    <p>Online Servers:
                         <span style=\" font-weight:600;\">
                             {servers_count}
                         </span>
@@ -70,7 +71,7 @@ class Ui(QtWidgets.QMainWindow):
             <html>
                 <head/>
                 <body>
-                    <p>Online Players: 
+                    <p>Online Players:
                         <span style=\" font-weight:600;\">
                             {players_count}
                         </span>
@@ -78,7 +79,8 @@ class Ui(QtWidgets.QMainWindow):
                 </body>
             </html>""")
 
-    def addServer(self, 
+    def addServer(
+            self, 
             ip: str, 
             hostname: str, 
             players_count: int, 
@@ -87,7 +89,8 @@ class Ui(QtWidgets.QMainWindow):
             version: str, 
             language: str, 
             password: bool, 
-            omp: bool):
+            omp: bool
+        ):
 
         rowPosition = self.tableWidget.rowCount()
         self.tableWidget.insertRow(rowPosition)
@@ -169,7 +172,7 @@ class Ui(QtWidgets.QMainWindow):
             message.setIcon(QtWidgets.QMessageBox.Critical)
             message.setWindowTitle("Error")
             message.setText("Could not get server list.\t\t")
-            message.setInformativeText(f"Failed to resolve 'api.open.mp'\nPlease check your connection.")
+            message.setInformativeText("Failed to resolve 'api.open.mp'\nPlease check your connection.")
             message.exec_()
 
             raise SystemExit(e)
