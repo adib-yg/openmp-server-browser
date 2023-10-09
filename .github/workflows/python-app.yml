@@ -38,4 +38,4 @@ jobs:
     - name: Build with Python
       run: |
         # pytest main.py --doctest-modules
-        python -m build main.py
+        python main.py
