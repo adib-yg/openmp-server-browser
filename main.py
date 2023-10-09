@@ -184,7 +184,7 @@ class Ui(QtWidgets.QMainWindow):
             message.setInformativeText("Internal server error\nPlease try again later.")
             message.exec_()
 
-            sys.exit()
+            sys.exit(0)
             return
 
         json = response.json()
@@ -392,7 +392,7 @@ if __name__ == '__main__':
         if process.name() == 'omp-server-browser.exe':
             process_count += 1
             if process_count > 2:
-                sys.exit()
+                sys.exit(0)
 
     def resource_path(relative_path):
         try:
@@ -405,9 +405,4 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = Ui()
     window.show()
-
-    timer = QtCore.QTimer()
-    timer.timeout.connect(lambda: sys.exit(0))
-    timer.start(12000)
-
     app.exec_()
