@@ -1,7 +1,7 @@
 # open.mp Server Browser
 open.mp server browser GUI for Desktop (unofficial)
 
-Servers are provided from https://open.mp/servers
+Servers are provided from [open.mp/servers](https://www.open.mp/servers)
 
 <img style='border:1px solid #000000' src="https://i.ibb.co/2hCQN9g/Screenshot-8.png" alt="Screenshot">
 <img style='border:1px solid #000000' src="https://i.ibb.co/GVT53zj/Screenshot-9.png" alt="Screenshot">
