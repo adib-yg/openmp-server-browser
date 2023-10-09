@@ -80,17 +80,16 @@ class Ui(QtWidgets.QMainWindow):
             </html>""")
 
     def addServer(
-            self, 
-            ip: str, 
-            hostname: str, 
-            players_count: int, 
-            players_max: int, 
-            gamemode: str, 
-            version: str, 
-            language: str, 
-            password: bool, 
-            omp: bool
-        ):
+            self,
+            ip: str,
+            hostname: str,
+            players_count: int,
+            players_max: int,
+            gamemode: str,
+            version: str,
+            language: str,
+            password: bool,
+            omp: bool):
 
         rowPosition = self.tableWidget.rowCount()
         self.tableWidget.insertRow(rowPosition)
@@ -111,7 +110,7 @@ class Ui(QtWidgets.QMainWindow):
 
         if password:
             item = QtWidgets.QTableWidgetItem("Yes")
-            
+
             item.setTextAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignVCenter)
             brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
             brush.setStyle(QtCore.Qt.NoBrush)
@@ -143,7 +142,7 @@ class Ui(QtWidgets.QMainWindow):
             icon.addPixmap(QtGui.QPixmap(":/newPrefix/open-mp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
             item.setIcon(icon)
             self.tableWidget.setVerticalHeaderItem(row, item)
-            
+
             if self.checkBoxOpenMpServers.isChecked():
                 self.tableWidget.setRowHidden(row, False)
             else:
@@ -157,7 +156,7 @@ class Ui(QtWidgets.QMainWindow):
             icon.addPixmap(QtGui.QPixmap(":/newPrefix/samp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
             item.setIcon(icon)
             self.tableWidget.setVerticalHeaderItem(row, item)
-            
+
             if self.checkBoxSampServers.isChecked():
                 self.tableWidget.setRowHidden(row, False)
             else:
@@ -176,7 +175,7 @@ class Ui(QtWidgets.QMainWindow):
             message.exec_()
 
             raise SystemExit(e)
-    
+
         if response.status_code != 200:
             message = QtWidgets.QMessageBox()
             message.setIcon(QtWidgets.QMessageBox.Critical)
@@ -200,7 +199,8 @@ class Ui(QtWidgets.QMainWindow):
                 player_count = i["pc"]
                 players_count += player_count
 
-                self.addServer(i["ip"],
+                self.addServer(
+                    i["ip"],
                     i["hn"],
                     player_count,
                     i["pm"],
@@ -208,7 +208,8 @@ class Ui(QtWidgets.QMainWindow):
                     i["vn"],
                     i["la"],
                     i["pa"],
-                    i["omp"])
+                    i["omp"]
+                )
             except Exception:
                 pass
 
@@ -273,7 +274,7 @@ class Ui(QtWidgets.QMainWindow):
             <html>
                 <head/>
                 <body>
-                    <p>Online Servers: 
+                    <p>Online Servers:
                         <span style=\" font-weight:600;\">
                             -
                         </span>
@@ -285,7 +286,7 @@ class Ui(QtWidgets.QMainWindow):
             <html>
                 <head/>
                 <body>
-                    <p>Online Players: 
+                    <p>Online Players:
                         <span style=\" font-weight:600;\">
                             -
                         </span>
@@ -301,7 +302,7 @@ class Ui(QtWidgets.QMainWindow):
             <html>
                 <head/>
                 <body>
-                    <p>Online Servers: 
+                    <p>Online Servers:
                         <span style=\" font-weight:600;\">
                             {servers_count}
                         </span>
@@ -313,7 +314,7 @@ class Ui(QtWidgets.QMainWindow):
             <html>
                 <head/>
                 <body>
-                    <p>Online Players: 
+                    <p>Online Players:
                         <span style=\" font-weight:600;\">
                             {players_count}
                         </span>
@@ -356,7 +357,7 @@ class Ui(QtWidgets.QMainWindow):
         text = self.lineEdit.text()
         if len(text) > 2:
             self.filterRows(text)
-    
+
     def on_samp_check_box_state_changed(self):
         if self.checkBoxSampServers.isChecked():
             for row in range(self.tableWidget.rowCount()):
@@ -383,6 +384,7 @@ class Ui(QtWidgets.QMainWindow):
         text = self.lineEdit.text()
         if len(text) > 2:
             self.filterRows(text)
+
 
 if __name__ == '__main__':
     process_count = 0
