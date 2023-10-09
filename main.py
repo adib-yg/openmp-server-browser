@@ -54,8 +54,29 @@ class Ui(QtWidgets.QMainWindow):
         
         servers_count, players_count = self.loadServerList()
 
-        self.labelOnlineServers.setText(f"<html><head/><body><p>Online Servers: <span style=\" font-weight:600;\">{servers_count}</span></p></body></html>")
-        self.labelOnlinePlayers.setText(f"<html><head/><body><p>Online Players: <span style=\" font-weight:600;\">{players_count}</span></p></body></html>")
+        self.labelOnlineServers.setText(f"""
+            <html>
+                <head/>
+                <body>
+                    <p>Online Servers: 
+                        <span style=\" font-weight:600;\">
+                            {servers_count}
+                        </span>
+                    </p>
+                </body>
+            </html>""")
+
+        self.labelOnlinePlayers.setText(f"""
+            <html>
+                <head/>
+                <body>
+                    <p>Online Players: 
+                        <span style=\" font-weight:600;\">
+                            {players_count}
+                        </span>
+                    </p>
+                </body>
+            </html>""")
 
     def addServer(self, 
             ip: str, 
@@ -88,7 +109,7 @@ class Ui(QtWidgets.QMainWindow):
         if password:
             item = QtWidgets.QTableWidgetItem("Yes")
             
-            item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignVCenter)
+            item.setTextAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignVCenter)
             brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
             brush.setStyle(QtCore.Qt.NoBrush)
             item.setBackground(brush)
@@ -104,7 +125,7 @@ class Ui(QtWidgets.QMainWindow):
         if omp:
             item = QtWidgets.QTableWidgetItem("Yes")
 
-            item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignVCenter)
+            item.setTextAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignVCenter)
             brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
             brush.setStyle(QtCore.Qt.NoBrush)
             item.setBackground(brush)
@@ -143,7 +164,7 @@ class Ui(QtWidgets.QMainWindow):
         url = "https://api.open.mp/servers"
         try:
             response = requests.get(url)
-        except:
+        except requests.exceptions.RequestException as e:
             message = QtWidgets.QMessageBox()
             message.setIcon(QtWidgets.QMessageBox.Critical)
             message.setWindowTitle("Error")
@@ -151,8 +172,7 @@ class Ui(QtWidgets.QMainWindow):
             message.setInformativeText(f"Failed to resolve 'api.open.mp'\nPlease check your connection.")
             message.exec_()
 
-            sys.exit()
-            return
+            raise SystemExit(e)
     
         if response.status_code != 200:
             message = QtWidgets.QMessageBox()
@@ -186,7 +206,7 @@ class Ui(QtWidgets.QMainWindow):
                     i["la"],
                     i["pa"],
                     i["omp"])
-            except:
+            except Exception:
                 pass
 
         return servers_count, players_count
@@ -231,7 +251,7 @@ class Ui(QtWidgets.QMainWindow):
                             self.tableWidget.setRowHidden(row, True)
 
     def on_clicked_row(self, item):
-        if item.column() == 0: # Clicked on a row in the "IP Address" column
+        if item.column() == 0:  # Clicked on a row in the "IP Address" column
             cell_content = item.data()
 
             if len(cell_content):
@@ -244,17 +264,59 @@ class Ui(QtWidgets.QMainWindow):
         self.timer.timeout.connect(lambda: self.pushButtonRefresh.setEnabled(True))
         self.timer.start(30000)
 
-        self.tableWidget.setRowCount(0) # Remove all rows
+        self.tableWidget.setRowCount(0)  # Remove all rows
 
-        self.labelOnlineServers.setText("<html><head/><body><p>Online Servers: <span style=\" font-weight:600;\">-</span></p></body></html>")
-        self.labelOnlinePlayers.setText("<html><head/><body><p>Online Players: <span style=\" font-weight:600;\">-</span></p></body></html>")
+        self.labelOnlineServers.setText("""
+            <html>
+                <head/>
+                <body>
+                    <p>Online Servers: 
+                        <span style=\" font-weight:600;\">
+                            -
+                        </span>
+                    </p>
+                </body>
+            </html>""")
+
+        self.labelOnlinePlayers.setText("""
+            <html>
+                <head/>
+                <body>
+                    <p>Online Players: 
+                        <span style=\" font-weight:600;\">
+                            -
+                        </span>
+                    </p>
+                </body>
+            </html>""")
 
         QtTest.QTest.qWait(500)
 
         servers_count, players_count = self.loadServerList()
 
-        self.labelOnlineServers.setText(f"<html><head/><body><p>Online Servers: <span style=\" font-weight:600;\">{servers_count}</span></p></body></html>")
-        self.labelOnlinePlayers.setText(f"<html><head/><body><p>Online Players: <span style=\" font-weight:600;\">{players_count}</span></p></body></html>")
+        self.labelOnlineServers.setText(f"""
+            <html>
+                <head/>
+                <body>
+                    <p>Online Servers: 
+                        <span style=\" font-weight:600;\">
+                            {servers_count}
+                        </span>
+                    </p>
+                </body>
+            </html>""")
+
+        self.labelOnlinePlayers.setText(f"""
+            <html>
+                <head/>
+                <body>
+                    <p>Online Players: 
+                        <span style=\" font-weight:600;\">
+                            {players_count}
+                        </span>
+                    </p>
+                </body>
+            </html>""")
 
         # Check filter again
         text = self.lineEdit.text()
