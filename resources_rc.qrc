@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>icon-refresh-24px.png</file>
+    <file>samp-icon.ico</file>
+    <file>open-mp-icon.ico</file>
+  </qresource>
+</RCC>
