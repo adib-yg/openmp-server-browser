@@ -38,6 +38,12 @@
          <property name="accessibleDescription">
           <string/>
          </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOn</enum>
+         </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustIgnored</enum>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
@@ -119,25 +125,6 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QLineEdit" name="lineEdit">
-         <property name="inputMask">
-          <string/>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="maxLength">
-          <number>64</number>
-         </property>
-         <property name="placeholderText">
-          <string>Filter by Hostname, Gamemode, Language, Version</string>
-         </property>
-         <property name="clearButtonEnabled">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="5" column="0">
         <widget class="QCheckBox" name="checkBoxSampServers">
          <property name="text">
@@ -167,6 +154,25 @@
           <iconset>
            <normalon>:/newPrefix/icon-refresh-24px.png</normalon>
           </iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLineEdit" name="lineEdit">
+         <property name="inputMask">
+          <string/>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="maxLength">
+          <number>64</number>
+         </property>
+         <property name="placeholderText">
+          <string>Filter by Hostname, Gamemode, Language, Version</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
