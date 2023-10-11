@@ -49,6 +49,12 @@ class Ui(QtWidgets.QMainWindow):
         self.tableWidget.setColumnWidth(3, 170)
         self.tableWidget.setColumnWidth(4, 100)
 
+        self.iconOpenMp = QtGui.QIcon()
+        self.iconOpenMp.addPixmap(QtGui.QPixmap(":/newPrefix/open-mp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        
+        self.iconSamp = QtGui.QIcon()
+        self.iconSamp.addPixmap(QtGui.QPixmap(":/newPrefix/samp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+
         self.tableWidget.clicked.connect(self.on_clicked_row)
         self.pushButtonRefresh.clicked.connect(self.on_clicked_button_refresh)
         self.lineEdit.textChanged.connect(self.on_line_edit_changed)
@@ -140,9 +146,7 @@ class Ui(QtWidgets.QMainWindow):
             self.tableWidget.setItem(row, 7, item)
 
             item = QtWidgets.QTableWidgetItem()
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap(":/newPrefix/open-mp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-            item.setIcon(icon)
+            item.setIcon(self.iconOpenMp)
             self.tableWidget.setVerticalHeaderItem(row, item)
 
             if self.checkBoxOpenMpServers.isChecked():
@@ -154,9 +158,7 @@ class Ui(QtWidgets.QMainWindow):
             self.tableWidget.setItem(row, 7, item)
 
             item = QtWidgets.QTableWidgetItem()
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap(":/newPrefix/samp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-            item.setIcon(icon)
+            item.setIcon(self.iconSamp)
             self.tableWidget.setVerticalHeaderItem(row, item)
 
             if self.checkBoxSampServers.isChecked():
