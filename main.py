@@ -51,7 +51,7 @@ class Ui(QtWidgets.QMainWindow):
 
         self.iconOpenMp = QtGui.QIcon()
         self.iconOpenMp.addPixmap(QtGui.QPixmap(":/newPrefix/open-mp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-        
+
         self.iconSamp = QtGui.QIcon()
         self.iconSamp.addPixmap(QtGui.QPixmap(":/newPrefix/samp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
 
