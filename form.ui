@@ -169,7 +169,7 @@
           <number>64</number>
          </property>
          <property name="placeholderText">
-          <string>Filter by Hostname, Gamemode, Language, Version</string>
+          <string>Search by Hostname, Gamemode, Language, Version</string>
          </property>
          <property name="clearButtonEnabled">
           <bool>true</bool>
