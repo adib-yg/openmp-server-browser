@@ -28,7 +28,6 @@ Special Thanks to:
 """
 
 from PyQt5 import QtWidgets, QtGui, QtCore, QtTest, uic
-from psutil import process_iter
 import os.path
 import sys
 import requests
@@ -41,19 +40,19 @@ class Ui(QtWidgets.QMainWindow):
 
         uic.loadUi(resource_path('form.ui'), self)
 
-        self.setWindowTitle("open.mp server browser")
-        self.setWindowIcon(QtGui.QIcon(':/newPrefix/open-mp-icon.ico'))
-
-        self.tableWidget.setColumnWidth(0, 130)
-        self.tableWidget.setColumnWidth(1, 250)
-        self.tableWidget.setColumnWidth(3, 170)
-        self.tableWidget.setColumnWidth(4, 100)
-
         self.iconOpenMp = QtGui.QIcon()
         self.iconOpenMp.addPixmap(QtGui.QPixmap(":/newPrefix/open-mp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
 
         self.iconSamp = QtGui.QIcon()
         self.iconSamp.addPixmap(QtGui.QPixmap(":/newPrefix/samp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+
+        self.setWindowTitle("open.mp server browser")
+        self.setWindowIcon(self.iconOpenMp)
+
+        self.tableWidget.setColumnWidth(0, 130)
+        self.tableWidget.setColumnWidth(1, 250)
+        self.tableWidget.setColumnWidth(3, 170)
+        self.tableWidget.setColumnWidth(4, 100)
 
         self.tableWidget.clicked.connect(self.on_clicked_row)
         self.pushButtonRefresh.clicked.connect(self.on_clicked_button_refresh)
@@ -174,6 +173,7 @@ class Ui(QtWidgets.QMainWindow):
             message = QtWidgets.QMessageBox()
             message.setIcon(QtWidgets.QMessageBox.Critical)
             message.setWindowTitle("Error")
+            message.setWindowIcon(self.iconOpenMp)
             message.setText("Could not get server list.\t\t")
             message.setInformativeText("Failed to resolve 'api.open.mp'\nPlease check your connection.")
             message.exec_()
@@ -184,6 +184,7 @@ class Ui(QtWidgets.QMainWindow):
             message = QtWidgets.QMessageBox()
             message.setIcon(QtWidgets.QMessageBox.Critical)
             message.setWindowTitle("Error")
+            message.setWindowIcon(self.iconOpenMp)
             message.setText("Could not get server list.\t\t")
             message.setInformativeText("Internal server error\nPlease try again later.")
             message.exec_()
@@ -193,29 +194,24 @@ class Ui(QtWidgets.QMainWindow):
 
         json = response.json()
 
-        servers_count = 0
-        players_count = 0
+        servers_count = int()
+        players_count = int()
 
         for i in json:
-            try:
-                servers_count += 1
+            servers_count += 1
+            players_count += i["pc"]
 
-                player_count = i["pc"]
-                players_count += player_count
-
-                self.addServer(
-                    i["ip"],
-                    i["hn"],
-                    player_count,
-                    i["pm"],
-                    i["gm"],
-                    i["vn"],
-                    i["la"],
-                    i["pa"],
-                    i["omp"]
-                )
-            except Exception:
-                pass
+            self.addServer(
+                i["ip"],
+                i["hn"],
+                i["pc"],
+                i["pm"],
+                i["gm"],
+                i["vn"],
+                i["la"],
+                i["pa"],
+                i["omp"]
+            )
 
         return servers_count, players_count
 
@@ -268,9 +264,9 @@ class Ui(QtWidgets.QMainWindow):
     def on_clicked_button_refresh(self):
         self.pushButtonRefresh.setEnabled(False)
 
-        self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(lambda: self.pushButtonRefresh.setEnabled(True))
-        self.timer.start(30000)
+        timer = QtCore.QTimer()
+        timer.timeout.connect(lambda: self.pushButtonRefresh.setEnabled(True))
+        timer.start(30000)
 
         self.tableWidget.setRowCount(0)  # Remove all rows
 
@@ -391,12 +387,6 @@ class Ui(QtWidgets.QMainWindow):
 
 
 if __name__ == '__main__':
-    process_count = 0
-    for process in process_iter():
-        if process.name() == 'omp-server-browser.exe':
-            process_count += 1
-            if process_count > 2:
-                sys.exit(0)
 
     def resource_path(relative_path):
         try:
