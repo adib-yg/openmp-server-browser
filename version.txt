@@ -21,7 +21,7 @@ VSVersionInfo(
         StringStruct(u'LegalCopyright', u'\xa9 yg. All rights reserved.'),
         StringStruct(u'OriginalFilename', u'omp-server-browser.exe'),
         StringStruct(u'ProductName', u'open.mp server browser'),
-        StringStruct(u'ProductVersion', u'1.0')])
+        StringStruct(u'ProductVersion', u'1.0.0')])
       ]), 
     VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
   ]
