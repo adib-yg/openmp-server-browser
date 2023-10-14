@@ -222,10 +222,10 @@ class Ui(QtWidgets.QMainWindow):
             sys.exit(0)
             return
 
-        json = response.json()
-
         servers_count = int()
         players_count = int()
+
+        json = response.json()
 
         for i in json:
             servers_count += 1
@@ -285,7 +285,7 @@ class Ui(QtWidgets.QMainWindow):
                         else:
                             self.tableWidget.setRowHidden(row, True)
 
-    def checkForUpdates(self):
+    def checkForUpdates(self) -> None:
         """
         version.json
         {
@@ -306,23 +306,30 @@ class Ui(QtWidgets.QMainWindow):
         if response.status_code != 200:
             return
 
-        json = response.json()
-
         try:
+            json = response.json()
+
             if json["version"] == __version__:
                 pass
             elif json["version"] > __version__:
                 message = QtWidgets.QMessageBox()
                 message.setIcon(QtWidgets.QMessageBox.Information)
                 message.setWindowIcon(self.iconOpenMp)
+                message.addButton("Later", QtWidgets.QMessageBox.YesRole)
+                downloadButton = message.addButton(
+                    "Download", QtWidgets.QMessageBox.ActionRole)
                 message.setWindowTitle("A newer version is available!")
                 message.setText(
                     "A newer version of "
                     "omp-server-browser is available!\t\t")
                 message.setInformativeText(
-                    f"<a href='{json['new_version_link']}'>"
-                    "Click to Download</a>")
+                    "Click the \"Download\" button to get the new version.")
                 message.exec_()
+
+                if message.clickedButton() == downloadButton:
+                    url = QtCore.QUrl(json["new_version_link"])
+                    QtGui.QDesktopServices.openUrl(url)
+
         except Exception:
             pass
 
