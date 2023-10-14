@@ -41,10 +41,16 @@ class Ui(QtWidgets.QMainWindow):
         uic.loadUi(resource_path('form.ui'), self)
 
         self.iconOpenMp = QtGui.QIcon()
-        self.iconOpenMp.addPixmap(QtGui.QPixmap(":/newPrefix/open-mp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.iconOpenMp.addPixmap(
+            QtGui.QPixmap(":/newPrefix/open-mp-icon.ico"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.On)
 
         self.iconSamp = QtGui.QIcon()
-        self.iconSamp.addPixmap(QtGui.QPixmap(":/newPrefix/samp-icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.iconSamp.addPixmap(
+            QtGui.QPixmap(":/newPrefix/samp-icon.ico"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.On)
 
         self.setWindowTitle("open.mp server browser")
         self.setWindowIcon(self.iconOpenMp)
@@ -55,10 +61,16 @@ class Ui(QtWidgets.QMainWindow):
         self.tableWidget.setColumnWidth(4, 100)
 
         self.tableWidget.clicked.connect(self.on_clicked_row)
+
         self.pushButtonRefresh.clicked.connect(self.on_clicked_button_refresh)
+
         self.lineEdit.textChanged.connect(self.on_line_edit_changed)
-        self.checkBoxOpenMpServers.stateChanged.connect(self.on_omp_check_box_state_changed)
-        self.checkBoxSampServers.stateChanged.connect(self.on_samp_check_box_state_changed)
+
+        self.checkBoxOpenMpServers.stateChanged.connect(
+            self.on_omp_check_box_state_changed)
+
+        self.checkBoxSampServers.stateChanged.connect(
+            self.on_samp_check_box_state_changed)
 
         servers_count, players_count = self.loadServerList()
 
@@ -86,6 +98,9 @@ class Ui(QtWidgets.QMainWindow):
                 </body>
             </html>""")
 
+        if CHECK_FOR_UPDATES:
+            self.checkForUpdates()
+
     def addServer(
             self,
             ip: str,
@@ -109,16 +124,26 @@ class Ui(QtWidgets.QMainWindow):
         self.tableWidget.setColumnCount(numcols)
 
         self.tableWidget.setItem(row, 0, QtWidgets.QTableWidgetItem(ip))
+
         self.tableWidget.setItem(row, 1, QtWidgets.QTableWidgetItem(hostname))
-        self.tableWidget.setItem(row, 2, QtWidgets.QTableWidgetItem(f"{str(players_count)}/{str(players_max)}"))
+
+        self.tableWidget.setItem(
+            row,
+            2,
+            QtWidgets.QTableWidgetItem(
+                f"{str(players_count)}/{str(players_max)}"))
+
         self.tableWidget.setItem(row, 3, QtWidgets.QTableWidgetItem(gamemode))
+
         self.tableWidget.setItem(row, 4, QtWidgets.QTableWidgetItem(language))
+
         self.tableWidget.setItem(row, 5, QtWidgets.QTableWidgetItem(version))
 
         if password:
             item = QtWidgets.QTableWidgetItem("Yes")
 
-            item.setTextAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignVCenter)
+            item.setTextAlignment(
+                QtCore.Qt.AlignLeading | QtCore.Qt.AlignVCenter)
             brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
             brush.setStyle(QtCore.Qt.NoBrush)
             item.setBackground(brush)
@@ -134,7 +159,8 @@ class Ui(QtWidgets.QMainWindow):
         if omp:
             item = QtWidgets.QTableWidgetItem("Yes")
 
-            item.setTextAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignVCenter)
+            item.setTextAlignment(
+                QtCore.Qt.AlignLeading | QtCore.Qt.AlignVCenter)
             brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
             brush.setStyle(QtCore.Qt.NoBrush)
             item.setBackground(brush)
@@ -172,10 +198,12 @@ class Ui(QtWidgets.QMainWindow):
         except requests.exceptions.RequestException as e:
             message = QtWidgets.QMessageBox()
             message.setIcon(QtWidgets.QMessageBox.Critical)
-            message.setWindowTitle("Error")
             message.setWindowIcon(self.iconOpenMp)
+            message.setWindowTitle("Error")
             message.setText("Could not get server list.\t\t")
-            message.setInformativeText("Failed to resolve 'api.open.mp'\nPlease check your connection.")
+            message.setInformativeText(
+                "Failed to resolve 'api.open.mp'\n"
+                "Please check your connection.")
             message.exec_()
 
             raise SystemExit(e)
@@ -183,10 +211,12 @@ class Ui(QtWidgets.QMainWindow):
         if response.status_code != 200:
             message = QtWidgets.QMessageBox()
             message.setIcon(QtWidgets.QMessageBox.Critical)
-            message.setWindowTitle("Error")
             message.setWindowIcon(self.iconOpenMp)
+            message.setWindowTitle("Error")
             message.setText("Could not get server list.\t\t")
-            message.setInformativeText("Internal server error\nPlease try again later.")
+            message.setInformativeText(
+                "Internal server error 'api.open.mp'\n"
+                "Please try again later.")
             message.exec_()
 
             sys.exit(0)
@@ -210,8 +240,7 @@ class Ui(QtWidgets.QMainWindow):
                 i["vn"],
                 i["la"],
                 i["pa"],
-                i["omp"]
-            )
+                i["omp"])
 
         return servers_count, players_count
 
@@ -219,9 +248,11 @@ class Ui(QtWidgets.QMainWindow):
         if len(text) > 2:
             for row in range(self.tableWidget.rowCount()):
                 item = self.tableWidget.item(row, 7)
-                if not self.checkBoxOpenMpServers.isChecked() and item.text() == "Yes":
+                if (not self.checkBoxOpenMpServers.isChecked() and
+                        item.text() == "Yes"):
                     continue
-                if not self.checkBoxSampServers.isChecked() and item.text() == "No":
+                if (not self.checkBoxSampServers.isChecked() and
+                        item.text() == "No"):
                     continue
 
                 for col in [0, 1, 3, 4, 5]:
@@ -253,6 +284,47 @@ class Ui(QtWidgets.QMainWindow):
                             self.tableWidget.setRowHidden(row, False)
                         else:
                             self.tableWidget.setRowHidden(row, True)
+
+    def checkForUpdates(self):
+        """
+        version.json
+        {
+            "version": "1.0.0",
+            "new_version_link": "https://..."
+        }
+        """
+
+        url = (
+            "https://raw.githubusercontent.com/adib-yg/"
+            "openmp-server-browser/main/version.json")
+
+        try:
+            response = requests.get(url)
+        except requests.exceptions.RequestException:
+            return
+
+        if response.status_code != 200:
+            return
+
+        json = response.json()
+
+        try:
+            if json["version"] == __version__:
+                pass
+            elif json["version"] > __version__:
+                message = QtWidgets.QMessageBox()
+                message.setIcon(QtWidgets.QMessageBox.Information)
+                message.setWindowIcon(self.iconOpenMp)
+                message.setWindowTitle("A newer version is available!")
+                message.setText(
+                    "A newer version of "
+                    "omp-server-browser is available!\t\t")
+                message.setInformativeText(
+                    f"<a href='{json['new_version_link']}'>"
+                    "Click to Download</a>")
+                message.exec_()
+        except Exception:
+            pass
 
     def on_clicked_row(self, item):
         if item.column() == 0:  # Clicked on a row in the "IP Address" column
@@ -387,6 +459,9 @@ class Ui(QtWidgets.QMainWindow):
 
 
 if __name__ == '__main__':
+    __version__ = "1.0.0"
+
+    CHECK_FOR_UPDATES = True
 
     def resource_path(relative_path):
         try:
