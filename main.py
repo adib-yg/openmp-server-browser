@@ -344,7 +344,8 @@ class Ui(QtWidgets.QMainWindow):
         self.pushButtonRefresh.setEnabled(False)
 
         self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(lambda: self.pushButtonRefresh.setEnabled(True))
+        self.timer.timeout.connect(
+            lambda: self.pushButtonRefresh.setEnabled(True))
         self.timer.start(30000)
 
         self.tableWidget.setRowCount(0)  # Remove all rows
