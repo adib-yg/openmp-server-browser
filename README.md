@@ -12,4 +12,4 @@ Servers are provided from [open.mp/servers](https://www.open.mp/servers)
 - Search and filter rows
 
 ## Download
-- [Windows 7 and higher](https://github.com/adib-yg/openmp-server-browser/releases/download/v1.0-beta/omp-server-browser.exe)
+- [Windows 7 and higher](https://github.com/adib-yg/openmp-server-browser/releases/download/v1.0.0/omp-server-browser.exe)
