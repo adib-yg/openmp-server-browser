@@ -343,9 +343,9 @@ class Ui(QtWidgets.QMainWindow):
     def on_clicked_button_refresh(self):
         self.pushButtonRefresh.setEnabled(False)
 
-        timer = QtCore.QTimer()
-        timer.timeout.connect(lambda: self.pushButtonRefresh.setEnabled(True))
-        timer.start(30000)
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(lambda: self.pushButtonRefresh.setEnabled(True))
+        self.timer.start(30000)
 
         self.tableWidget.setRowCount(0)  # Remove all rows
 
