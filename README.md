@@ -3,8 +3,9 @@ open.mp server browser GUI for Desktop (unofficial)
 
 Servers are provided from [open.mp/servers](https://www.open.mp/servers)
 
-<img style='border:1px solid #000000' src="https://i.ibb.co/2hCQN9g/Screenshot-8.png" alt="Screenshot">
-<img style='border:1px solid #000000' src="https://i.ibb.co/GVT53zj/Screenshot-9.png" alt="Screenshot">
+<kbd><a href="https://ibb.co/r0BVyqX"><img src="https://i.ibb.co/JtY9k8S/Screenshot-11.png" alt="Screenshot-11" border="0"></a></kbd>
+
+<kbd><a href="https://ibb.co/DfDPNR3"><img src="https://i.ibb.co/tpMwSJy/Screenshot-12.png" alt="Screenshot-12" border="0"></a></kbd>
 
 ## Features
 - You can copy the server address by clicking on the row
