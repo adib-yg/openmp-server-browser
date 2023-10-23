@@ -20,7 +20,7 @@ Portions created by the Initial Developer are Copyright (c) 2023
 the Initial Developer. All Rights Reserved.
 
 Contributor(s):
-  -
+  adib-yg
 
 Special Thanks to:
   open.mp team
@@ -28,7 +28,6 @@ Special Thanks to:
 """
 
 from PyQt5 import QtWidgets, QtGui, QtCore, QtTest, uic
-import os.path
 import sys
 import requests
 import resources_rc
@@ -38,17 +37,21 @@ class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()
 
-        uic.loadUi(resource_path('form.ui'), self)
+        # Load UI file from resources
+        stream = QtCore.QFile(":/uiPrefix/form.ui")
+        stream.open(QtCore.QFile.ReadOnly)
+        uic.loadUi(stream, self)
+        stream.close()
 
         self.iconOpenMp = QtGui.QIcon()
         self.iconOpenMp.addPixmap(
-            QtGui.QPixmap(":/newPrefix/open-mp-icon.ico"),
+            QtGui.QPixmap(":/imagesPrefix/icons/open-mp-icon.ico"),
             QtGui.QIcon.Normal,
             QtGui.QIcon.On)
 
         self.iconSamp = QtGui.QIcon()
         self.iconSamp.addPixmap(
-            QtGui.QPixmap(":/newPrefix/samp-icon.ico"),
+            QtGui.QPixmap(":/imagesPrefix/icons/samp-icon.ico"),
             QtGui.QIcon.Normal,
             QtGui.QIcon.On)
 
@@ -61,6 +64,7 @@ class Ui(QtWidgets.QMainWindow):
         self.tableWidget.setColumnWidth(4, 100)
 
         self.tableWidget.clicked.connect(self.on_clicked_row)
+        self.tableWidget.doubleClicked.connect(self.on_double_clicked_row)
 
         self.pushButtonRefresh.clicked.connect(self.on_clicked_button_refresh)
 
@@ -72,34 +76,20 @@ class Ui(QtWidgets.QMainWindow):
         self.checkBoxSampServers.stateChanged.connect(
             self.on_samp_check_box_state_changed)
 
-        servers_count, players_count = self.loadServerList()
+        self.actionTheme.triggered.connect(self.on_triggered_action_theme)
 
-        self.labelOnlineServers.setText(f"""
-            <html>
-                <head/>
-                <body>
-                    <p>Online Servers:
-                        <span style=\" font-weight:600;\">
-                            {servers_count}
-                        </span>
-                    </p>
-                </body>
-            </html>""")
+        self.current_theme = "Light"
 
-        self.labelOnlinePlayers.setText(f"""
-            <html>
-                <head/>
-                <body>
-                    <p>Online Players:
-                        <span style=\" font-weight:600;\">
-                            {players_count}
-                        </span>
-                    </p>
-                </body>
-            </html>""")
+        if detect_darkmode_in_windows():
+            self.setThemeDarkMode()
 
         if CHECK_FOR_UPDATES:
             self.checkForUpdates()
+
+        servers_count, players_count = self.loadServerList()
+
+        self.setLabelOnlineServersText(str(servers_count))
+        self.setLabelOnlinePlayersText(str(players_count))
 
     def addServer(
             self,
@@ -194,7 +184,7 @@ class Ui(QtWidgets.QMainWindow):
     def loadServerList(self) -> int:
         url = "https://api.open.mp/servers"
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=7)
         except requests.exceptions.RequestException as e:
             message = QtWidgets.QMessageBox()
             message.setIcon(QtWidgets.QMessageBox.Critical)
@@ -299,7 +289,7 @@ class Ui(QtWidgets.QMainWindow):
             "openmp-server-browser/main/version.json")
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=5)
         except requests.exceptions.RequestException:
             return
 
@@ -333,12 +323,190 @@ class Ui(QtWidgets.QMainWindow):
         except Exception:
             pass
 
+    def setLabelOnlineServersText(self, text: str) -> None:
+        self.labelOnlineServers.setText(f"""
+            <html>
+                <head/>
+                <body>
+                    <p>Online Servers:
+                        <span style=\" font-weight:600;\">
+                            {text}
+                        </span>
+                    </p>
+                </body>
+            </html>""")
+
+    def setLabelOnlinePlayersText(self, text: str) -> None:
+        self.labelOnlinePlayers.setText(f"""
+            <html>
+                <head/>
+                <body>
+                    <p>Online Players:
+                        <span style=\" font-weight:600;\">
+                            {text}
+                        </span>
+                    </p>
+                </body>
+            </html>""")
+
+    def setThemeDarkMode(self) -> None:
+        self.current_theme = "Dark"
+
+        app.setStyle("fusion")
+
+        self.actionTheme.setText("Light Mode")
+        icon = QtGui.QIcon()
+        icon.addPixmap(
+            QtGui.QPixmap(":/imagesPrefix/images/icon-sun-48px-white.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.On)
+        self.actionTheme.setIcon(icon)
+
+        self.setStyleSheet(
+            """QWidget {
+                background-color: rgb(76, 76, 76);
+            }
+            QMenu {
+                color: rgb(255, 255, 255);
+            }
+            QMenuBar {
+                background-color: rgb(100, 100, 100);
+            }
+            QMenuBar::item {
+                color: rgb(255,255,255);
+            }
+            QMenuBar::item:selected {
+                background-color: rgba(203, 203, 203, 100);
+            }
+            QFrame#frame {
+                background-color: #212121;
+            }
+            QTableWidget QTableCornerButton::section {
+               background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                           stop:0 #616161, stop: 0.5 #505050,
+                                           stop: 0.6 #434343, stop:1 #656565);
+            }
+            QCheckBox::indicator {
+                border: 2px solid;
+                border-color: rgb(83, 83, 83);
+            }
+            QCheckBox::indicator:checked {
+                background-color: rgba(255, 255, 255, 200);
+            }
+            QCheckBox#checkBoxOpenMpServers {
+                color: rgb(255, 255, 255);
+                background-color: rgba(54, 54, 54, 50);
+            }
+            QCheckBox::hover#checkBoxOpenMpServers {
+                background-color: rgba(54, 54, 54, 150);
+            }
+            QCheckBox#checkBoxSampServers {
+                color: rgb(255, 255, 255);
+                background-color: rgba(54, 54, 54, 50);
+            }
+            QCheckBox::hover#checkBoxSampServers {
+                background-color: rgba(54, 54, 54, 150);
+            }
+            QPushButton#pushButtonRefresh {
+                color: rgb(255, 255, 255);
+            }
+            QLineEdit#lineEdit {
+                color: rgb(255, 255, 255);
+            }
+            QTableWidget#tableWidget {
+                color: rgb(255, 255, 255);
+                background-color: rgb(62, 62, 62);
+                selection-background-color: rgba(184, 184, 184, 70);
+                gridline-color: rgba(255, 255, 255, 20);
+            }
+            QHeaderView::section {
+                color: rgb(255, 255, 255);
+                border: 1px solid rgba(255, 255, 255, 30);
+                background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                           stop:0 #616161, stop: 0.5 #505050,
+                                           stop: 0.6 #434343, stop:1 #656565);
+            }
+            QLabel#label {
+                background-color: transparent;
+                color: rgb(255, 255, 255);
+            }
+            QLabel#labelOnlineServers {
+                background-color: transparent;
+                color: rgb(255, 255, 255);
+            }
+            QLabel#labelOnlinePlayers {
+                background-color: transparent;
+                color: rgb(255, 255, 255);
+            }
+            """)
+
+        icon = QtGui.QIcon()
+        icon.addPixmap(
+            QtGui.QPixmap(
+                ":/imagesPrefix/images/icon-refresh-24px-white.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.On)
+        self.pushButtonRefresh.setIcon(icon)
+
+        self.tableWidget.setHorizontalScrollBarPolicy(
+            QtCore.Qt.ScrollBarAsNeeded)
+
+    def setThemeLightMode(self) -> None:
+        self.current_theme = "Light"
+
+        app.setStyle("windowsvista")
+
+        self.actionTheme.setText("Dark Mode")
+        icon = QtGui.QIcon()
+        icon.addPixmap(
+            QtGui.QPixmap(":/imagesPrefix/images/icon-dark-64px.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.On)
+        self.actionTheme.setIcon(icon)
+
+        self.setStyleSheet("")
+
+        icon = QtGui.QIcon()
+        icon.addPixmap(
+            QtGui.QPixmap(":/imagesPrefix/images/icon-refresh-24px.png"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.On)
+        self.pushButtonRefresh.setIcon(icon)
+
+        self.tableWidget.setHorizontalScrollBarPolicy(
+            QtCore.Qt.ScrollBarAlwaysOn)
+
     def on_clicked_row(self, item):
         if item.column() == 0:  # Clicked on a row in the "IP Address" column
             cell_content = item.data()
 
             if len(cell_content):
                 QtWidgets.QApplication.clipboard().setText(cell_content)
+
+    def on_double_clicked_row(self, item):
+        if item.column() == 0:  # Clicked on a row in the "IP Address" column
+            cell_content = item.data()
+
+            if len(cell_content):
+                try:
+                    import winreg
+
+                    registry = winreg.ConnectRegistry(
+                        None, winreg.HKEY_LOCAL_MACHINE)
+                except ImportError:
+                    return
+                except Exception:
+                    return
+
+                reg_keypath = (
+                    r'SOFTWARE\Classes\samp')
+
+                try:
+                    winreg.OpenKey(registry, reg_keypath)
+                except FileNotFoundError:
+                    return
+
+                QtCore.QProcess.execute(f"explorer samp://{cell_content}")
 
     def on_clicked_button_refresh(self):
         self.pushButtonRefresh.setEnabled(False)
@@ -350,57 +518,15 @@ class Ui(QtWidgets.QMainWindow):
 
         self.tableWidget.setRowCount(0)  # Remove all rows
 
-        self.labelOnlineServers.setText("""
-            <html>
-                <head/>
-                <body>
-                    <p>Online Servers:
-                        <span style=\" font-weight:600;\">
-                            -
-                        </span>
-                    </p>
-                </body>
-            </html>""")
-
-        self.labelOnlinePlayers.setText("""
-            <html>
-                <head/>
-                <body>
-                    <p>Online Players:
-                        <span style=\" font-weight:600;\">
-                            -
-                        </span>
-                    </p>
-                </body>
-            </html>""")
+        self.setLabelOnlineServersText("-")
+        self.setLabelOnlinePlayersText("-")
 
         QtTest.QTest.qWait(500)
 
         servers_count, players_count = self.loadServerList()
 
-        self.labelOnlineServers.setText(f"""
-            <html>
-                <head/>
-                <body>
-                    <p>Online Servers:
-                        <span style=\" font-weight:600;\">
-                            {servers_count}
-                        </span>
-                    </p>
-                </body>
-            </html>""")
-
-        self.labelOnlinePlayers.setText(f"""
-            <html>
-                <head/>
-                <body>
-                    <p>Online Players:
-                        <span style=\" font-weight:600;\">
-                            {players_count}
-                        </span>
-                    </p>
-                </body>
-            </html>""")
+        self.setLabelOnlineServersText(str(servers_count))
+        self.setLabelOnlinePlayersText(str(players_count))
 
         # Check filter again
         text = self.lineEdit.text()
@@ -465,19 +591,44 @@ class Ui(QtWidgets.QMainWindow):
         if len(text) > 2:
             self.filterRows(text)
 
+    def on_triggered_action_theme(self):
+        if self.current_theme == "Light":
+            self.setThemeDarkMode()
+        else:
+            self.setThemeLightMode()
+
 
 if __name__ == '__main__':
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     CHECK_FOR_UPDATES = True
 
-    def resource_path(relative_path):
+    def detect_darkmode_in_windows() -> bool:
         try:
-            base_path = sys._MEIPASS
-        except Exception:
-            base_path = os.path.abspath(".")
+            import winreg
 
-        return os.path.join(base_path, relative_path)
+            registry = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
+        except ImportError:
+            return False
+        except Exception:
+            return False
+
+        reg_keypath = (
+            r'SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize')
+
+        try:
+            reg_key = winreg.OpenKey(registry, reg_keypath)
+        except FileNotFoundError:
+            return False
+
+        for i in range(1024):
+            try:
+                value_name, value, _ = winreg.EnumValue(reg_key, i)
+                if value_name == 'AppsUseLightTheme':
+                    return value == 0
+            except OSError:
+                break
+        return False
 
     app = QtWidgets.QApplication(sys.argv)
     window = Ui()
