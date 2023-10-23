@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="imagesPrefix">
+    <file>../../images/icon-dark-64px.png</file>
+    <file>../../images/icon-sun-48px-white.png</file>
+    <file>../../images/icon-refresh-24px-white.png</file>
+    <file>../../images/icon-refresh-24px.png</file>
+    <file>../../icons/samp-icon.ico</file>
+    <file>../../icons/open-mp-icon.ico</file>
+  </qresource>
+  <qresource prefix="uiPrefix">
+    <file>../form.ui</file>
+  </qresource>
+</RCC>
