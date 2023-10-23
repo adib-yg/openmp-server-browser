@@ -3,11 +3,7 @@
 
 block_cipher = None
 
-added_files = [
-    ( 'form.ui', '.' ),
-    ( 'open-mp-icon.ico', '.' ),
-    ( 'resources_rc.py', '.' )
-]
+added_files = []
 
 a = Analysis(
     ['main.py'],
@@ -46,6 +42,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['open-mp-icon.ico'],
+    icon=['assets/icons/open-mp-icon.ico'],
     version='version.txt'
 )
