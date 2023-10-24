@@ -3,9 +3,9 @@ open.mp server browser GUI for Desktop (unofficial)
 
 Servers are provided from [open.mp/servers](https://www.open.mp/servers)
 
-<kbd><a href="https://ibb.co/r0BVyqX"><img src="https://i.ibb.co/JtY9k8S/Screenshot-11.png" alt="Screenshot-11" border="0"></a></kbd>
+<kbd><a href="https://ibb.co/QbrxxNv"><img src="https://i.ibb.co/f14TTpd/Screenshot-1.png" alt="Screenshot-1" border="0"></a></kbd>
 
-<kbd><a href="https://ibb.co/DfDPNR3"><img src="https://i.ibb.co/tpMwSJy/Screenshot-12.png" alt="Screenshot-12" border="0"></a></kbd>
+<kbd><a href="https://ibb.co/v322bMb"><img src="https://i.ibb.co/QPssZxZ/Screenshot-2.png" alt="Screenshot-2" border="0"></a></kbd>
 
 ## Version 1.1.0
 - Dark Mode theme
