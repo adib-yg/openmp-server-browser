@@ -7,10 +7,16 @@ Servers are provided from [open.mp/servers](https://www.open.mp/servers)
 
 <kbd><a href="https://ibb.co/DfDPNR3"><img src="https://i.ibb.co/tpMwSJy/Screenshot-12.png" alt="Screenshot-12" border="0"></a></kbd>
 
-## Features
+## Version 1.1.0
+- Dark Mode theme
+
+### Download
+- [Windows 7 and higher](https://github.com/adib-yg/openmp-server-browser/releases/download/v1.1.0/omp-server-browser.exe)
+
+## Version 1.0.0
 - You can copy the server address by clicking on the row
 - Refreshing server list (Available every 30 seconds)
 - Search and filter rows
 
-## Download
+### Download
 - [Windows 7 and higher](https://github.com/adib-yg/openmp-server-browser/releases/download/v1.0.0/omp-server-browser.exe)
