@@ -57,6 +57,7 @@ class Ui(QtWidgets.QMainWindow):
 
         self.setWindowTitle("open.mp server browser")
         self.setWindowIcon(self.iconOpenMp)
+        self.setMinimumSize(846, 568)
 
         self.tableWidget.setColumnWidth(0, 130)
         self.tableWidget.setColumnWidth(1, 250)
