@@ -10,6 +10,7 @@ on:
       - '**/resources_rc.py'
       - '**/version.json'
       - '**/version.txt'
+      - 'screenshots/**'
   pull_request:
     branches: [ "main" ]
 
