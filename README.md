@@ -20,3 +20,6 @@ Servers are provided from [open.mp/servers](https://www.open.mp/servers)
 
 ### Download
 - [Windows 7 and higher](https://github.com/adib-yg/openmp-server-browser/releases/download/v1.0.0/omp-server-browser.exe)
+
+## Development
+Fork the repository and build the executable with github actions.
