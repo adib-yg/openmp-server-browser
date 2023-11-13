@@ -45,3 +45,11 @@ jobs:
           name: ${{ steps.vars.outputs.artifact_name }}
           path: dist/omp-server-browser.exe
           if-no-files-found: error
+      
+      - name: Update nightly release
+        uses: eine/tip@master
+        with:
+          tag: nightly
+          rm: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: dist/*.*
