@@ -46,10 +46,14 @@ jobs:
           path: dist/omp-server-browser.exe
           if-no-files-found: error
       
-      - name: Update nightly release
-        uses: eine/tip@master
+      - name: Update Nightly Release
+        uses: andelf/nightly-release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag: nightly
-          rm: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-          files: dist/*.*
+          tag_name: nightly
+          name: 'openmp-server-browser-nightly-release'
+          prerelease: true
+          body: 'Nightly release'
+          files: |
+            ./dist/*.exe
