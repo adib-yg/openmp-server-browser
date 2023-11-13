@@ -4,6 +4,7 @@ on:
   push:
     branches: [ "main" ]
     paths-ignore:
+      - '**.yml'
       - '**/README.md'
       - '**/LICENSE'
       - '**/resources_rc.py'
@@ -52,7 +53,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: nightly
-          name: 'openmp-server-browser-nightly-release'
+          name: 'Nightly'
           prerelease: true
           body: 'Nightly release'
           files: |
