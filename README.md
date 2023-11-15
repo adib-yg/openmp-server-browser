@@ -23,3 +23,17 @@ Servers are provided from [open.mp/servers](https://www.open.mp/servers)
 
 ## Development
 Fork the repository and build the executable with github actions.
+
+Or to build on your machine:
+  - Install Python 3.8.2 (old version for program compatibility with Windows 7)
+  - Open CMD or Windows PowerShell
+  - Install dependencies
+  ```shell
+    python -m pip install -r requirements.txt PyInstaller
+  ```
+  - Build
+  ```shell
+    PyInstaller main.spec
+  ```
+
+The executable file goes to the `./dist` folder.
