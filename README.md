@@ -26,7 +26,10 @@ Fork the repository and build the executable with github actions.
 
 Or to build on your machine:
   - Install Python 3.8.2 (old version for program compatibility with Windows 7)
-  - Open CMD or Windows PowerShell
+  - Open Command Prompt and cd into the repo directory
+  ```bash
+    cd openmp-server-browser
+  ```
   - Install dependencies
   ```bash
     python -m pip install -r requirements.txt PyInstaller
